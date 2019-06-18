@@ -1,48 +1,24 @@
-# -*- coding: utf-8 -*-
-
-
 class Company(object):
-    def __init__(self, num, num1, employee_list):
-        self.num, self.num1 = num, num1
+    def __init__(self, employee_list):
         self.employee = employee_list
 
-    def __getitem__(self, item):
-        return self.employee[item]
-
-    def __str__(self):
-        """
-        使用print时会调用这个方法
-        """
-        return "/".join(self.employee)
-
-    def __repr__(self):
-        return "&".join(self.employee)
-
-    def __abs__(self):
-        """
-        自定义abs函数
-        """
-        return self.num + 1
-
-    def __add__(self, other):
-        return {"num": self.num + other.num, "num1": self.num1 + other.num1}
+    # 魔法函数既不属于object类，也不是Company类特有的方法，作为一个独立的存在的特殊方法可以加强类的功能
+    # 直接影响类的使用语法，如果不添加__getitem__方法，对这个类的实力的遍历和切片都将不可用
+    def __getitem__(self, index):
+        return self.employee[index]
 
     def __len__(self):
+        """
+        添加这个魔法函数可以使用len方法
+        """
         return len(self.employee)
 
 
-if __name__ == '__main__':
-    company = Company(1, 2, ["tom", "bob", "jane"])
+company = Company(["tom", "bob", "jane"])
 
-    company1 = company[:2]
+company1 = company[:2]  # 对实例进行切片
 
-    for em in company1:
-        print(em)
+for em in company1:  # 对实例进行遍历
+    print(em)
 
-    print(company)
-
-    print(repr(company))
-
-    print(abs(company))
-
-    print(company + Company(3, 4, [1, 2 ,3]))
+print(len(company))
